@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// /INSTRUCTIONS
 /// 
 /// 1) Press Button 'Q' and left mouse button to focus on any gameobject which has the collider and layermast "CollidableMask"
@@ -106,6 +106,7 @@ public class UnityCameraController : MonoBehaviour {
 
 	}
 
+	// more the distace from the current focus transform more is the scrollspeed
 	void ZoomCamera (){
 		
 		float zoom = Input.GetAxisRaw ("Mouse ScrollWheel");
@@ -115,11 +116,14 @@ public class UnityCameraController : MonoBehaviour {
 		transform.Translate (transform.forward * zoom * currentScrollSpeed * Time.deltaTime, Space.World);
 	}
 
+	// more the distace from the current focus transform more is the pan speed
 	void PanCamera (){
 		
 		if (Input.GetMouseButton (0)) {
 			Vector2 panInput = new Vector2 (-Input.GetAxisRaw ("Mouse X"), -Input.GetAxisRaw ("Mouse Y"));
-			transform.Translate ((transform.right * panInput.x + transform.up * panInput.y) * (currentFocusTransform.position - transform.position).magnitude *panMultiplier * Time.deltaTime, Space.World);
+			transform.Translate ((transform.right * panInput.x + transform.up * panInput.y) * 
+				(currentFocusTransform.position - transform.position).magnitude *panMultiplier *
+				Time.deltaTime, Space.World);
 		}
 	}
 
@@ -171,7 +175,7 @@ public class UnityCameraController : MonoBehaviour {
 		}
 	}
 
-
+	// check the distance between center bound and the max bound and get the magnitute and then move the transform of camera backward from center to that distance
 	void FocusCameraOnGameobject (Transform hit) {
 		Bounds hitBound = hit.GetComponent<Collider>().bounds;
 		bool isTerrain = hit.GetComponent<Terrain> ();
@@ -214,3 +218,4 @@ public class CameraVisualStuff {
 	[HideInInspector]
 	public Sprite currentSprite;
 }
+
